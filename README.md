@@ -6,6 +6,12 @@ This project detects whether a news article is **real** or **fake** by analyzing
 
 Fake news detection is an important real-world problem because misinformation spreads quickly through websites, social media, and messaging platforms. A system like this can help flag suspicious content and support users in identifying potentially misleading news.
 
+## Live Demo
+
+Hugging Face Space:
+
+[https://huggingface.co/spaces/Lokeshlokey/fake-news-detection-system](https://huggingface.co/spaces/Lokeshlokey/fake-news-detection-system)
+
 ## 🎯 Objectives
 
 - Detect fake vs real news from article text
@@ -125,7 +131,7 @@ The project includes a Gradio interface for entering a headline and article text
 - Add deep learning models such as LSTM or BERT
 - Include more diverse and up-to-date datasets
 - Improve UI design and prediction explanations
-- Deploy the app publicly on Hugging Face Spaces
+- Add stronger production deployment polish beyond the current Hugging Face Space
 - Add more model comparison options such as Random Forest or XGBoost
 
 ## 👨‍💻 Author / Contributors
