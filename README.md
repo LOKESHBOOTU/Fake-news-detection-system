@@ -94,8 +94,22 @@ Latest saved model metrics:
 
 ## 📸 Screenshots / Output
 
-- The project includes a Gradio interface for entering a headline and article text.
-- You can add app screenshots here later for GitHub presentation and interviews.
+The project includes a Gradio interface for entering a headline and article text, viewing predictions, and inspecting model contribution details.
+
+Add your screenshots to the `assets/` folder with these names:
+
+- `assets/ui-main.png`
+- `assets/ui-metrics.png`
+
+Then they will appear here automatically:
+
+### Main Interface
+
+![Main Interface](assets/ui-main.png)
+
+### Model Metrics And Token Contribution View
+
+![Metrics And Contribution View](assets/ui-metrics.png)
 
 ## 🚀 Features
 
