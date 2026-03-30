@@ -6,6 +6,10 @@ This project detects whether a news article is **real** or **fake** by analyzing
 
 Fake news detection is an important real-world problem because misinformation spreads quickly through websites, social media platforms, and messaging apps. A system like this can help flag suspicious content and support users in identifying potentially misleading news.
 
+## What Is Fake News Detection
+
+Fake news detection is the process of identifying whether a news article or claim is trustworthy or misleading based on its content. In Natural Language Processing, this is treated as a text classification problem where the model learns patterns from labeled news data and predicts whether new input is likely to be **real** or **fake**.
+
 ## Live Demo
 
 Try the deployed app on Hugging Face Spaces:
@@ -44,6 +48,27 @@ Try the deployed app on Hugging Face Spaces:
 
 For faster experimentation and deployment, the current training pipeline uses a cleaned sampled subset. The latest saved training run used **19,979** rows.
 
+## Project Structure
+
+```text
+Fake News Detection system/
+|-- app.py
+|-- artifacts/
+|-- data/
+|-- DSP_PBL_PROJECT.ipynb
+|-- README.md
+|-- requirements.txt
+|-- scripts/
+|   `-- train.py
+`-- src/
+    `-- fake_news_detector/
+```
+
+## Requirements
+
+- Python 3.10 or later
+- pip
+
 ## ⚙️ Installation & Setup
 
 ```bash
@@ -54,6 +79,18 @@ python -m venv .venv
 pip install -r requirements.txt
 python app.py
 ```
+
+## Run Locally
+
+After installing the dependencies, start the app with:
+
+```bash
+python app.py
+```
+
+Then open the local Gradio interface in your browser:
+
+[http://127.0.0.1:7860](http://127.0.0.1:7860)
 
 ## 🔍 Methodology / Workflow
 
@@ -77,6 +114,14 @@ python app.py
 
 7. **Prediction**  
    The saved best-performing setup is loaded into the Gradio app for interactive prediction.
+
+## How It Works
+
+1. Enter a news headline and article text in the app.
+2. The input text is cleaned and normalized.
+3. TF-IDF converts the text into numerical features.
+4. A trained machine learning model predicts whether the input is real or fake.
+5. The app displays the prediction, confidence score, class probabilities, and contributing tokens.
 
 ## 🤖 Machine Learning Models Used
 
@@ -118,6 +163,20 @@ The project includes a Gradio interface for entering a headline and article text
 - Saved trained artifacts so the app does not retrain on every run
 - Deployment-ready project structure for local use and Hugging Face Spaces
 
+## Applications
+
+- Identifying misleading news headlines and articles
+- Demonstrating NLP text classification in academic projects
+- Comparing classical machine learning models on text data
+- Building portfolio-ready machine learning web apps
+
+## Why This Project Is Useful
+
+- Helps users understand how fake news classification works in practice
+- Saves time by giving a quick prediction on suspicious content
+- Shows a complete workflow from training to deployment
+- Useful for students, researchers, and beginners learning NLP and ML deployment
+
 ## ⚠️ Limitations
 
 - Performance depends heavily on dataset quality
@@ -143,3 +202,7 @@ The project includes a Gradio interface for entering a headline and article text
 No license file has been added yet.
 
 If you want to open-source this project properly, adding an **MIT License** would be a good next step.
+
+## Deployment
+
+This project is deployed on Hugging Face Spaces and can also be run locally using the saved model artifacts.
