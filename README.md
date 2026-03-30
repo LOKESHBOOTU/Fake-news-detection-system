@@ -131,11 +131,4 @@ No license file has been added yet.
 
 If you want to open-source this project properly, adding an **MIT License** would be a good next step.
 
-## ⭐ Pro Tips (Important for Interviews)
 
-- Explain the real-world problem of misinformation clearly
-- Mention why TF-IDF + classical ML is a strong baseline
-- Show the metrics table and highlight the best model
-- Explain why SVM performed best in your current experiments
-- Mention that the app uses saved artifacts, so it is deployment-friendly
-- Walk through the workflow from dataset to prediction in simple steps
