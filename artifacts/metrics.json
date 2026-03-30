@@ -1,0 +1,47 @@
+{
+  "default_model": "SVM",
+  "best_model_by_f1": "SVM",
+  "dataset": {
+    "dataset_path": "WELFake_Dataset.csv",
+    "text_columns": [
+      "title",
+      "text"
+    ],
+    "label_column": "label",
+    "rows_used": 19979,
+    "label_distribution": {
+      "0": 9712,
+      "1": 10267
+    }
+  },
+  "models": {
+    "LogisticRegression": {
+      "accuracy": 0.9296796796796797,
+      "precision": 0.9264069264069265,
+      "recall": 0.937682570593963,
+      "f1": 0.9320106460198403
+    },
+    "NaiveBayes": {
+      "accuracy": 0.8798798798798799,
+      "precision": 0.9103232533889468,
+      "recall": 0.8500486854917235,
+      "f1": 0.879154078549849
+    },
+    "SVM": {
+      "accuracy": 0.9474474474474475,
+      "precision": 0.9471387002909797,
+      "recall": 0.950827653359299,
+      "f1": 0.9489795918367347
+    }
+  },
+  "train_size": 15983,
+  "test_size": 3996,
+  "vectorizer": {
+    "min_df": 2,
+    "max_df": 0.95,
+    "ngram_range": [
+      1,
+      2
+    ]
+  }
+}

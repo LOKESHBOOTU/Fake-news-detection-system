@@ -69,7 +69,7 @@ pip install -r requirements.txt
 
 ## Training
 
-Run the training script:
+Run the training script once:
 
 ```bash
 python scripts/train.py
@@ -83,6 +83,14 @@ This generates files inside `artifacts/` such as:
 - `svm.joblib`
 - `metrics.json`
 - `metrics.md`
+
+After those files are created, the app loads them directly and does not retrain on startup.
+
+If you want to rebuild the models later, run:
+
+```bash
+python scripts/train.py --force
+```
 
 ## Running the App
 
@@ -120,5 +128,6 @@ git push
 ## Notes
 
 - The dataset is not committed by default.
+- The trained artifacts can be committed so the deployed app starts instantly without retraining.
 - The notebook `DSP_PBL_PROJECT.ipynb` is kept as the original research/prototype file.
 - The deployed app is intended for demonstration and portfolio use rather than full production use.

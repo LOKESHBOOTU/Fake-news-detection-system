@@ -23,7 +23,6 @@ dist/
 # Local data and artifacts
 data/*.csv
 WELFake_Dataset.csv
-artifacts/*.joblib
 !data/.gitkeep
 !artifacts/.gitkeep
 

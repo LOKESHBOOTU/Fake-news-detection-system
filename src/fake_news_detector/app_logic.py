@@ -11,6 +11,111 @@ import pandas as pd
 from .config import DEFAULT_ARTIFACTS_DIR, DEFAULT_MODEL_NAME
 from .data_utils import clean_text_keep_punct
 
+APP_CSS = """
+.gradio-container {
+    background:
+        radial-gradient(circle at top left, #f4efe3 0%, transparent 35%),
+        radial-gradient(circle at top right, #dce9f7 0%, transparent 28%),
+        linear-gradient(180deg, #fbfaf5 0%, #f2f4f7 100%);
+}
+
+.app-shell {
+    max-width: 1180px;
+    margin: 0 auto;
+}
+
+.hero {
+    padding: 28px;
+    border: 1px solid #d7dce2;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.86);
+    box-shadow: 0 18px 40px rgba(34, 53, 74, 0.08);
+}
+
+.eyebrow {
+    display: inline-block;
+    margin-bottom: 12px;
+    padding: 6px 12px;
+    border-radius: 999px;
+    background: #16253a;
+    color: #f7f3ea;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.hero h1 {
+    margin: 0 0 8px 0;
+    font-size: 2.6rem;
+    line-height: 1.05;
+}
+
+.hero p {
+    margin: 0;
+    max-width: 760px;
+    color: #415063;
+    font-size: 1.05rem;
+}
+
+.stat-card,
+.panel-card {
+    border: 1px solid #d7dce2;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 14px 30px rgba(34, 53, 74, 0.06);
+}
+
+.stat-card {
+    padding: 18px;
+    text-align: center;
+}
+
+.stat-card h3 {
+    margin: 0;
+    color: #5d6a79;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.stat-card .value {
+    margin-top: 8px;
+    color: #122033;
+    font-size: 1.7rem;
+    font-weight: 700;
+}
+
+.panel-card {
+    padding: 18px 18px 10px 18px;
+}
+
+.section-title {
+    margin: 0 0 10px 0;
+    color: #122033;
+    font-size: 1.05rem;
+    font-weight: 700;
+}
+
+.result-banner {
+    padding: 16px 18px;
+    border-radius: 18px;
+    color: #102033;
+    font-weight: 600;
+    background: linear-gradient(135deg, #eef3f9 0%, #ffffff 100%);
+    border: 1px solid #d7dce2;
+}
+"""
+
+EXAMPLES = [
+    [
+        "Health agency releases annual vaccine safety report",
+        "The agency published updated vaccine safety findings with methods, data tables, and recommendations for public review.",
+    ],
+    [
+        "Secret machine controls weather in every city",
+        "A viral blog claims a hidden device changes the weather worldwide overnight without providing evidence or official sources.",
+    ],
+]
+
 
 MODEL_FILENAMES = {
     "LogisticRegression": "logisticregression.joblib",
@@ -24,6 +129,19 @@ def _confidence_and_label(probabilities: np.ndarray) -> tuple[str, str]:
     label = "FAKE" if fake_score >= 0.5 else "REAL"
     confidence = max(fake_score, 1 - fake_score)
     return label, f"{confidence:.1%}"
+
+
+def _result_summary(label: str, confidence: str, probabilities: np.ndarray) -> str:
+    tone = "Likely fabricated or misleading." if label == "FAKE" else "Likely grounded in legitimate reporting."
+    return (
+        "<div class='result-banner'>"
+        f"<div><strong>{label}</strong> with <strong>{confidence}</strong> confidence</div>"
+        f"<div style='margin-top:6px; color:#4b5a6d; font-weight:500;'>{tone}</div>"
+        f"<div style='margin-top:8px; color:#697789; font-size:0.94rem;'>"
+        f"REAL score: {probabilities[0]:.3f} | FAKE score: {probabilities[1]:.3f}"
+        "</div>"
+        "</div>"
+    )
 
 
 def _softmax_from_scores(scores: np.ndarray) -> np.ndarray:
@@ -123,6 +241,15 @@ def build_demo(artifacts_dir: Path = DEFAULT_ARTIFACTS_DIR) -> gr.Blocks:
 
     metrics_table = pd.DataFrame(metadata.get("models", {})).T.reset_index()
     metrics_table.columns = ["model", "accuracy", "precision", "recall", "f1"]
+    metrics_table[["accuracy", "precision", "recall", "f1"]] = metrics_table[
+        ["accuracy", "precision", "recall", "f1"]
+    ].round(4)
+
+    dataset_rows = metadata.get("dataset", {}).get("rows_used", "unknown")
+    best_model = metadata.get("best_model_by_f1", "unknown")
+    label_distribution = metadata.get("dataset", {}).get("label_distribution", {})
+    real_count = label_distribution.get("0", "unknown")
+    fake_count = label_distribution.get("1", "unknown")
 
     def predict(selected_model: str, title: str, body: str):
         full_text = clean_text_keep_punct(f"{title or ''} {body or ''}".strip())
@@ -131,26 +258,81 @@ def build_demo(artifacts_dir: Path = DEFAULT_ARTIFACTS_DIR) -> gr.Blocks:
             return (
                 "Need more text",
                 "Please enter at least 10 characters of title/body content.",
-                "N/A",
+                "<div class='result-banner'>Please enter at least 10 characters of title/body content.</div>",
                 empty,
+                {"REAL": 0.0, "FAKE": 0.0},
             )
 
         model = models[selected_model]
         vector = vectorizer.transform([full_text])
         probabilities = _predict_probabilities(model, vector)
         label, confidence = _confidence_and_label(probabilities)
-        detail = f"REAL: {probabilities[0]:.3f} | FAKE: {probabilities[1]:.3f}"
+        detail = _result_summary(label, confidence, probabilities)
         explanation = _top_contributions(model, vector, feature_names)
-        return label, confidence, detail, explanation
+        chart = {"REAL": float(probabilities[0]), "FAKE": float(probabilities[1])}
+        return label, confidence, detail, explanation, chart
 
-    with gr.Blocks(title="Fake News Detector") as demo:
-        gr.Markdown("# Fake News Detector")
-        gr.Markdown(
-            "A classical ML demo that scores an article as **REAL** or **FAKE** using TF-IDF features and a trained text classifier."
+    with gr.Blocks(title="Fake News Detector", css=APP_CSS, theme=gr.themes.Soft()) as demo:
+        gr.HTML(
+            """
+            <div class="app-shell">
+              <div class="hero">
+                <div class="eyebrow">Fake News Detection</div>
+                <h1>Check whether a news claim looks real or suspicious</h1>
+                <p>
+                  Paste a headline and article body to compare how the trained models score the text.
+                  The app uses classical NLP features, not a large language model, so the output should be treated as a demo signal rather than final fact-checking.
+                </p>
+              </div>
+            </div>
+            """
         )
+        with gr.Row(equal_height=True):
+            with gr.Column(scale=1):
+                gr.HTML(
+                    f"""
+                    <div class="stat-card">
+                      <h3>Rows Used</h3>
+                      <div class="value">{dataset_rows}</div>
+                    </div>
+                    """
+                )
+            with gr.Column(scale=1):
+                gr.HTML(
+                    f"""
+                    <div class="stat-card">
+                      <h3>Default Model</h3>
+                      <div class="value" style="font-size:1.2rem;">{default_model}</div>
+                    </div>
+                    """
+                )
+            with gr.Column(scale=1):
+                gr.HTML(
+                    f"""
+                    <div class="stat-card">
+                      <h3>Best By F1</h3>
+                      <div class="value" style="font-size:1.2rem;">{best_model}</div>
+                    </div>
+                    """
+                )
+            with gr.Column(scale=1):
+                gr.HTML(
+                    f"""
+                    <div class="stat-card">
+                      <h3>Label Split</h3>
+                      <div class="value" style="font-size:1.1rem;">R {real_count} / F {fake_count}</div>
+                    </div>
+                    """
+                )
+
         with gr.Row():
             with gr.Column(scale=2):
-                title_in = gr.Textbox(label="Headline", placeholder="Optional headline")
+                gr.HTML("<div class='panel-card'><div class='section-title'>Article Input</div></div>")
+                title_in = gr.Textbox(
+                    label="Headline",
+                    placeholder="Optional headline",
+                    lines=2,
+                )
                 body_in = gr.Textbox(
                     label="Article text",
                     lines=12,
@@ -160,30 +342,60 @@ def build_demo(artifacts_dir: Path = DEFAULT_ARTIFACTS_DIR) -> gr.Blocks:
                     choices=model_choices,
                     value=default_model,
                     label="Model",
+                    info="Use the default model for the most stable demo result.",
                 )
-                submit = gr.Button("Analyze")
+                with gr.Row():
+                    submit = gr.Button("Analyze Article", variant="primary")
+                    clear = gr.Button("Clear", variant="secondary")
+                gr.Examples(
+                    examples=EXAMPLES,
+                    inputs=[title_in, body_in],
+                    label="Quick examples",
+                )
+            with gr.Column(scale=1):
+                gr.HTML("<div class='panel-card'><div class='section-title'>Prediction Summary</div></div>")
                 label_out = gr.Textbox(label="Prediction")
                 confidence_out = gr.Textbox(label="Confidence")
-                detail_out = gr.Textbox(label="Scores")
+                detail_out = gr.HTML(label="Summary")
+                probability_out = gr.Label(label="Class probabilities")
+
+        with gr.Row():
+            with gr.Column(scale=3):
+                gr.HTML("<div class='panel-card'><div class='section-title'>Why The Model Leaned This Way</div></div>")
                 contrib_out = gr.Dataframe(
                     headers=["token", "contribution"],
                     label="Top contributing tokens",
                 )
             with gr.Column(scale=1):
-                dataset_rows = metadata.get("dataset", {}).get("rows_used", "unknown")
-                best_model = metadata.get("best_model_by_f1", "unknown")
-                gr.Markdown(
-                    f"### Model Snapshot\n"
-                    f"- Rows used: **{dataset_rows}**\n"
-                    f"- Default model: **{default_model}**\n"
-                    f"- Best by F1: **{best_model}**"
-                )
-                gr.Dataframe(value=metrics_table, label="Evaluation metrics")
+                gr.HTML("<div class='panel-card'><div class='section-title'>Model Metrics</div></div>")
+                gr.Dataframe(value=metrics_table, label="Evaluation metrics", wrap=True)
 
         submit.click(
             predict,
             inputs=[model_in, title_in, body_in],
-            outputs=[label_out, confidence_out, detail_out, contrib_out],
+            outputs=[label_out, confidence_out, detail_out, contrib_out, probability_out],
+        )
+        clear.click(
+            lambda: (
+                "",
+                "",
+                default_model,
+                "",
+                "",
+                "<div class='result-banner'>Run an analysis to see the result summary here.</div>",
+                pd.DataFrame(columns=["token", "contribution"]),
+                {"REAL": 0.0, "FAKE": 0.0},
+            ),
+            outputs=[
+                title_in,
+                body_in,
+                model_in,
+                label_out,
+                confidence_out,
+                detail_out,
+                contrib_out,
+                probability_out,
+            ],
         )
 
     return demo

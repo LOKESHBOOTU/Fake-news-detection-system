@@ -111,11 +111,12 @@ def load_dataset(dataset_path: Path, sample_size: int | None = None) -> tuple[pd
     df["label_mapped"] = map_label_safe(df[label_column])
 
     if sample_size and len(df) > sample_size:
-        sampled = df.groupby("label_mapped", group_keys=False).apply(
-            lambda group: group.sample(
-                frac=min(1, sample_size / len(df)), random_state=42
-            )
+        sampled_indices = (
+            df.groupby("label_mapped", group_keys=False)
+            .sample(frac=min(1, sample_size / len(df)), random_state=42)
+            .index
         )
+        sampled = df.loc[sampled_indices]
         if len(sampled) > sample_size:
             sampled = sampled.sample(n=sample_size, random_state=42)
         elif len(sampled) < sample_size:

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import argparse
 import json
 from pathlib import Path
 
@@ -26,6 +27,16 @@ from .config import (
 from .data_utils import load_dataset
 
 
+REQUIRED_ARTIFACTS = [
+    "tfidf.joblib",
+    "logisticregression.joblib",
+    "naivebayes.joblib",
+    "svm.joblib",
+    "metrics.json",
+    "metrics.md",
+]
+
+
 def compute_metrics(y_true, y_pred) -> dict[str, float]:
     precision, recall, f1, _ = precision_recall_fscore_support(
         y_true, y_pred, average="binary", zero_division=0
@@ -38,12 +49,23 @@ def compute_metrics(y_true, y_pred) -> dict[str, float]:
     }
 
 
+def artifacts_ready(artifacts_dir: Path) -> bool:
+    return all((artifacts_dir / name).exists() for name in REQUIRED_ARTIFACTS)
+
+
+def load_existing_metadata(artifacts_dir: Path) -> dict:
+    return json.loads((artifacts_dir / "metrics.json").read_text(encoding="utf-8"))
+
+
 def train_and_save(
     dataset_path: Path = DEFAULT_DATASET_PATH,
     artifacts_dir: Path = DEFAULT_ARTIFACTS_DIR,
     sample_size: int | None = SAMPLE_SIZE,
+    force_retrain: bool = False,
 ) -> dict:
     artifacts_dir.mkdir(parents=True, exist_ok=True)
+    if artifacts_ready(artifacts_dir) and not force_retrain:
+        return load_existing_metadata(artifacts_dir)
 
     df, dataset_metadata = load_dataset(dataset_path=dataset_path, sample_size=sample_size)
     X_train, X_test, y_train, y_test = train_test_split(
@@ -85,7 +107,7 @@ def train_and_save(
 
     best_model_name = max(metrics, key=lambda name: metrics[name]["f1"])
     metadata = {
-        "default_model": DEFAULT_MODEL_NAME if DEFAULT_MODEL_NAME in models else best_model_name,
+        "default_model": best_model_name if best_model_name in models else DEFAULT_MODEL_NAME,
         "best_model_by_f1": best_model_name,
         "dataset": dataset_metadata,
         "models": metrics,
@@ -121,7 +143,14 @@ def train_and_save(
 
 
 def main() -> None:
-    metadata = train_and_save()
+    parser = argparse.ArgumentParser(description="Train fake news detection models.")
+    parser.add_argument(
+        "--force",
+        action="store_true",
+        help="Retrain even if saved artifacts already exist.",
+    )
+    args = parser.parse_args()
+    metadata = train_and_save(force_retrain=args.force)
     print(json.dumps(metadata, indent=2))
 
 
