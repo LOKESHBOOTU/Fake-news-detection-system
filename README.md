@@ -10,7 +10,7 @@ Fake news detection is an important real-world problem because misinformation sp
 
 Try the deployed app on Hugging Face Spaces:
 
-[Fake News Detection Space](https://huggingface.co/spaces/Lokeshlokey/fake-news-detection-system)
+[Click here to test Fake News Detection Space](https://huggingface.co/spaces/Lokeshlokey/fake-news-detection-system)
 
 ## 🎯 Objectives
 
