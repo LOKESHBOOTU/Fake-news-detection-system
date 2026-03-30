@@ -1,14 +1,27 @@
 # Fake News Detector
 
-<img width="749" height="618" alt="Project screenshot 1" src="https://github.com/user-attachments/assets/3a73cc65-5400-452b-8b40-7ebd087238fa" />
+A machine learning project that classifies news articles as `REAL` or `FAKE` using classical NLP models built with TF-IDF features and scikit-learn.
 
-<img width="768" height="816" alt="Project screenshot 2" src="https://github.com/user-attachments/assets/be9fab66-3b12-4437-9c39-0a660b54995a" />
+This repository started as a notebook-based prototype and is now organized as a small app project with:
 
-A portfolio-ready machine learning demo that classifies article text as `REAL` or `FAKE` using classical NLP models built on TF-IDF features.
+- a reusable training pipeline
+- a standalone Gradio web app
+- saved model artifacts for deployment
+- documentation for local setup and hosting
 
-The original project started as a single Colab-style notebook. This repo keeps that notebook for reference and adds a clean training script, a standalone Gradio app, and project files that are ready for GitHub and Hugging Face Spaces.
+## Overview
 
-## Project layout
+The project trains multiple text classification models on a labeled fake-news dataset and serves predictions through a simple interface where a user can enter a headline and article body.
+
+The current implementation includes:
+
+- Logistic Regression
+- Naive Bayes
+- Linear SVM
+
+The default deployed model is Logistic Regression.
+
+## Project Structure
 
 ```text
 .
@@ -25,26 +38,28 @@ The original project started as a single Colab-style notebook. This repo keeps t
 
 ## Features
 
-- Standalone training workflow with reproducible settings
-- Automatic text/label column detection for compatible CSV datasets
-- Three classical models: Logistic Regression, Naive Bayes, and Linear SVM
-- Saved model artifacts and metrics for deployment
-- Gradio interface for testing article headlines and body text
-- Hugging Face Spaces friendly `app.py` entrypoint
+- Reproducible training workflow with fixed configuration
+- Automatic dataset column detection for text and labels
+- Saved TF-IDF vectorizer and trained models
+- Evaluation metrics exported after training
+- Gradio interface for interactive predictions
+- Hugging Face Spaces compatible app entrypoint
 
-## Preferred dataset schema
+## Dataset Format
 
-The training script can auto-detect columns, but the cleanest CSV format is:
+The training script supports automatic column detection, but the preferred CSV format is:
 
-| Column | Meaning |
+| Column | Description |
 | --- | --- |
-| `title` | Article headline |
-| `text` | Article body |
-| `label` | Binary label where `0=REAL` and `1=FAKE`, or values like `real` / `fake` |
+| `title` | News headline |
+| `text` | Article content |
+| `label` | Binary label such as `0/1` or `real/fake` |
 
-Place your dataset in `data/WELFake_Dataset.csv`, or set the `FAKE_NEWS_DATASET` environment variable to a different CSV path.
+Place your dataset at `data/WELFake_Dataset.csv`, or set the `FAKE_NEWS_DATASET` environment variable to point to another CSV file.
 
-## Local setup
+## Installation
+
+Create a virtual environment and install dependencies:
 
 ```bash
 python -m venv .venv
@@ -52,13 +67,15 @@ python -m venv .venv
 pip install -r requirements.txt
 ```
 
-## Train the models
+## Training
+
+Run the training script:
 
 ```bash
 python scripts/train.py
 ```
 
-Training creates these local files in `artifacts/`:
+This generates files inside `artifacts/` such as:
 
 - `tfidf.joblib`
 - `logisticregression.joblib`
@@ -67,32 +84,41 @@ Training creates these local files in `artifacts/`:
 - `metrics.json`
 - `metrics.md`
 
-## Run the app locally
+## Running the App
+
+Start the Gradio application locally:
 
 ```bash
 python app.py
 ```
 
-If artifacts are missing, the app shows a clear setup message instead of relying on notebook state.
+Then open the local URL shown in the terminal.
 
-## Hugging Face Spaces deployment
+If trained artifacts are missing, the app will show a setup message instead of failing silently.
 
-This project is structured for a Gradio Space:
+## Deployment
 
-1. Create a new Gradio Space on Hugging Face.
-2. Push this repository to GitHub.
-3. Upload or sync the repo contents into the Space.
-4. Make sure the trained artifacts exist in `artifacts/` before deployment, or generate them and include only the small artifact files you want to host.
-5. Hugging Face will detect `app.py` and `requirements.txt` automatically.
+This project is structured for deployment on Hugging Face Spaces.
 
-## GitHub publishing checklist
+### Hugging Face Spaces
+
+1. Create a new Gradio Space.
+2. Upload this repository or connect the GitHub repository.
+3. Make sure the trained files exist in `artifacts/` before deployment.
+4. Hugging Face will use `app.py` and `requirements.txt` automatically.
+
+## GitHub
+
+To push new local changes:
 
 ```bash
-git push -u origin main
+git add .
+git commit -m "Update project"
+git push
 ```
 
 ## Notes
 
-- The dataset is intentionally not committed by default.
-- The default deployed model is Logistic Regression, while the app still allows comparison with Naive Bayes and SVM when their artifacts are present.
-- The original notebook, `DSP_PBL_PROJECT.ipynb`, remains in the repo as a research reference.
+- The dataset is not committed by default.
+- The notebook `DSP_PBL_PROJECT.ipynb` is kept as the original research/prototype file.
+- The deployed app is intended for demonstration and portfolio use rather than full production use.
