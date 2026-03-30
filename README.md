@@ -1,14 +1,3 @@
----
-title: Fake News Detection using Machine Learning
-emoji: 📰
-colorFrom: blue
-colorTo: indigo
-sdk: gradio
-sdk_version: 5.50.0
-app_file: app.py
-pinned: false
----
-
 # Fake News Detection using Machine Learning
 
 ## 📖 Description
