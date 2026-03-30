@@ -16,6 +16,14 @@ Try the deployed app on Hugging Face Spaces:
 
 [Click here to test Fake News Detection Space](https://huggingface.co/spaces/Lokeshlokey/fake-news-detection-system)
 
+## How It Works
+
+1. Enter a news headline and article text in the app.
+2. The input text is cleaned and normalized.
+3. TF-IDF converts the text into numerical features.
+4. A trained machine learning model predicts whether the input is real or fake.
+5. The app displays the prediction, confidence score, class probabilities, and contributing tokens.
+
 ## 🎯 Objectives
 
 - Detect fake and real news from article text
@@ -79,19 +87,6 @@ python -m venv .venv
 pip install -r requirements.txt
 python app.py
 ```
-
-## Run Locally
-
-After installing the dependencies, start the app with:
-
-```bash
-python app.py
-```
-
-Then open the local Gradio interface in your browser:
-
-[http://127.0.0.1:7860](http://127.0.0.1:7860)
-
 ## 🔍 Methodology / Workflow
 
 1. **Data Collection**  
@@ -114,14 +109,6 @@ Then open the local Gradio interface in your browser:
 
 7. **Prediction**  
    The saved best-performing setup is loaded into the Gradio app for interactive prediction.
-
-## How It Works
-
-1. Enter a news headline and article text in the app.
-2. The input text is cleaned and normalized.
-3. TF-IDF converts the text into numerical features.
-4. A trained machine learning model predicts whether the input is real or fake.
-5. The app displays the prediction, confidence score, class probabilities, and contributing tokens.
 
 ## 🤖 Machine Learning Models Used
 
