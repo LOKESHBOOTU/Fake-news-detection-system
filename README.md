@@ -92,24 +92,18 @@ Latest saved model metrics:
 
 **Best-performing model:** SVM
 
-## 📸 Screenshots / Output
+## 📸 Sample Preview / Output
 
 The project includes a Gradio interface for entering a headline and article text, viewing predictions, and inspecting model contribution details.
 
-Add your screenshots to the `assets/` folder with these names:
-
-- `assets/ui-main.png`
-- `assets/ui-metrics.png`
-
-Then they will appear here automatically:
-
 ### Main Interface
 
-![Main Interface](assets/ui-main.png)
+<img width="1623" height="990" alt="Screenshot 2026-03-30 194620" src="https://github.com/user-attachments/assets/0f11df78-82ed-41ed-86f9-a8035118bc68" />
+
 
 ### Model Metrics And Token Contribution View
 
-![Metrics And Contribution View](assets/ui-metrics.png)
+<img width="1563" height="542" alt="Screenshot 2026-03-30 194720" src="https://github.com/user-attachments/assets/3ebe48c3-97a8-4dd5-98b7-2eed93f49bb6" />
 
 ## 🚀 Features
 
