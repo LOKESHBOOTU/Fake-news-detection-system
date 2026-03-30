@@ -1,5 +1,9 @@
 # Fake News Detector
 
+<img width="749" height="618" alt="Project screenshot 1" src="https://github.com/user-attachments/assets/3a73cc65-5400-452b-8b40-7ebd087238fa" />
+
+<img width="768" height="816" alt="Project screenshot 2" src="https://github.com/user-attachments/assets/be9fab66-3b12-4437-9c39-0a660b54995a" />
+
 A portfolio-ready machine learning demo that classifies article text as `REAL` or `FAKE` using classical NLP models built on TF-IDF features.
 
 The original project started as a single Colab-style notebook. This repo keeps that notebook for reference and adds a clean training script, a standalone Gradio app, and project files that are ready for GitHub and Hugging Face Spaces.
@@ -38,7 +42,7 @@ The training script can auto-detect columns, but the cleanest CSV format is:
 | `text` | Article body |
 | `label` | Binary label where `0=REAL` and `1=FAKE`, or values like `real` / `fake` |
 
-Place your dataset at [data/WELFake_Dataset.csv](C:\Users\LOKESHBOOTU\OneDrive\Desktop\Fake News Detection system\data\WELFake_Dataset.csv), or set the `FAKE_NEWS_DATASET` environment variable to a different CSV path.
+Place your dataset in `data/WELFake_Dataset.csv`, or set the `FAKE_NEWS_DATASET` environment variable to a different CSV path.
 
 ## Local setup
 
@@ -84,11 +88,6 @@ This project is structured for a Gradio Space:
 ## GitHub publishing checklist
 
 ```bash
-git init
-git branch -M main
-git add .
-git commit -m "Initial fake news detector app"
-git remote add origin <your-github-repo-url>
 git push -u origin main
 ```
 
@@ -96,4 +95,4 @@ git push -u origin main
 
 - The dataset is intentionally not committed by default.
 - The default deployed model is Logistic Regression, while the app still allows comparison with Naive Bayes and SVM when their artifacts are present.
-- The original notebook, [DSP_PBL_PROJECT.ipynb](C:\Users\LOKESHBOOTU\OneDrive\Desktop\Fake News Detection system\DSP_PBL_PROJECT.ipynb), remains in the repo as a research reference.
+- The original notebook, `DSP_PBL_PROJECT.ipynb`, remains in the repo as a research reference.
