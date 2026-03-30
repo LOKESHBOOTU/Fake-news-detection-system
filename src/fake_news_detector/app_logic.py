@@ -13,10 +13,12 @@ from .data_utils import clean_text_keep_punct
 
 APP_CSS = """
 .gradio-container {
+    color: #162033;
+    font-family: "Segoe UI", "Public Sans", Arial, sans-serif;
     background:
-        radial-gradient(circle at top left, #f4efe3 0%, transparent 35%),
-        radial-gradient(circle at top right, #dce9f7 0%, transparent 28%),
-        linear-gradient(180deg, #fbfaf5 0%, #f2f4f7 100%);
+        radial-gradient(circle at top left, #fff3da 0%, transparent 28%),
+        radial-gradient(circle at top right, #e7f1ff 0%, transparent 24%),
+        linear-gradient(180deg, #f8fafc 0%, #eef3f8 100%);
 }
 
 .app-shell {
@@ -25,11 +27,11 @@ APP_CSS = """
 }
 
 .hero {
-    padding: 28px;
-    border: 1px solid #d7dce2;
+    padding: 32px;
+    border: 1px solid #d6e0ea;
     border-radius: 24px;
-    background: rgba(255, 255, 255, 0.86);
-    box-shadow: 0 18px 40px rgba(34, 53, 74, 0.08);
+    background: rgba(255, 255, 255, 0.96);
+    box-shadow: 0 16px 34px rgba(18, 32, 51, 0.07);
 }
 
 .eyebrow {
@@ -37,9 +39,11 @@ APP_CSS = """
     margin-bottom: 12px;
     padding: 6px 12px;
     border-radius: 999px;
-    background: #16253a;
-    color: #f7f3ea;
+    background: #17324f;
+    color: #ffffff;
+    border: 1px solid #17324f;
     font-size: 12px;
+    font-weight: 700;
     letter-spacing: 0.08em;
     text-transform: uppercase;
 }
@@ -48,21 +52,24 @@ APP_CSS = """
     margin: 0 0 8px 0;
     font-size: 2.6rem;
     line-height: 1.05;
+    color: #132238;
+    font-weight: 800;
 }
 
 .hero p {
     margin: 0;
     max-width: 760px;
-    color: #415063;
-    font-size: 1.05rem;
+    color: #3d4c5f;
+    font-size: 1.08rem;
+    line-height: 1.65;
 }
 
 .stat-card,
 .panel-card {
-    border: 1px solid #d7dce2;
+    border: 1px solid #d6e0ea;
     border-radius: 20px;
-    background: rgba(255, 255, 255, 0.9);
-    box-shadow: 0 14px 30px rgba(34, 53, 74, 0.06);
+    background: rgba(255, 255, 255, 0.96);
+    box-shadow: 0 10px 26px rgba(18, 32, 51, 0.05);
 }
 
 .stat-card {
@@ -72,16 +79,16 @@ APP_CSS = """
 
 .stat-card h3 {
     margin: 0;
-    color: #5d6a79;
+    color: #58708d;
     font-size: 0.9rem;
-    font-weight: 600;
+    font-weight: 700;
 }
 
 .stat-card .value {
     margin-top: 8px;
-    color: #122033;
+    color: #102033;
     font-size: 1.7rem;
-    font-weight: 700;
+    font-weight: 800;
 }
 
 .panel-card {
@@ -90,9 +97,9 @@ APP_CSS = """
 
 .section-title {
     margin: 0 0 10px 0;
-    color: #122033;
-    font-size: 1.05rem;
-    font-weight: 700;
+    color: #11243a;
+    font-size: 1.08rem;
+    font-weight: 800;
 }
 
 .result-banner {
@@ -100,8 +107,271 @@ APP_CSS = """
     border-radius: 18px;
     color: #102033;
     font-weight: 600;
-    background: linear-gradient(135deg, #eef3f9 0%, #ffffff 100%);
-    border: 1px solid #d7dce2;
+    background: linear-gradient(135deg, #eef6ff 0%, #ffffff 100%);
+    border: 1px solid #cfe0f2;
+}
+
+.probability-card {
+    padding: 16px 18px;
+    border-radius: 16px;
+    border: 1px solid #d7e1eb;
+    background: #ffffff;
+    color: #111827;
+}
+
+.probability-card h4 {
+    margin: 0 0 12px 0;
+    color: #111827;
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.probability-row {
+    margin-top: 12px;
+}
+
+.probability-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+    color: #1f2937;
+    font-size: 0.98rem;
+    font-weight: 600;
+}
+
+.probability-track {
+    width: 100%;
+    height: 10px;
+    border-radius: 999px;
+    background: #e6eef8;
+    overflow: hidden;
+}
+
+.probability-fill {
+    height: 100%;
+    border-radius: 999px;
+    background: #3b82f6;
+}
+
+.gradio-container .block {
+    border: none;
+}
+
+.gradio-container label,
+.gradio-container .form label,
+.gradio-container .wrap span,
+.gradio-container .prose,
+.gradio-container .prose p,
+.gradio-container .prose strong {
+    color: #162033 !important;
+    font-size: 0.98rem !important;
+}
+
+.gradio-container input,
+.gradio-container textarea,
+.gradio-container select {
+    background: #ffffff !important;
+    color: #162033 !important;
+    border: 1px solid #cbd8e6 !important;
+    border-radius: 14px !important;
+    font-size: 1rem !important;
+}
+
+.gradio-container textarea::placeholder,
+.gradio-container input::placeholder {
+    color: #728399 !important;
+}
+
+.gradio-container .form {
+    background: #ffffff !important;
+    border: 1px solid #d7e1eb !important;
+    border-radius: 18px !important;
+    box-shadow: 0 8px 20px rgba(18, 32, 51, 0.04) !important;
+}
+
+.gradio-container .form > .wrap,
+.gradio-container .form .wrap,
+.gradio-container .form .block,
+.gradio-container .form .block-content,
+.gradio-container .form .gr-box,
+.gradio-container .form .gr-panel {
+    background: #ffffff !important;
+}
+
+.gradio-container button {
+    font-weight: 700 !important;
+    border-radius: 14px !important;
+    font-size: 0.98rem !important;
+}
+
+.gradio-container button.primary {
+    background: linear-gradient(135deg, #1b70f1 0%, #1558c0 100%) !important;
+    color: #ffffff !important;
+    border: none !important;
+}
+
+.gradio-container button.secondary {
+    background: #e9eef5 !important;
+    color: #17324f !important;
+    border: 1px solid #cbd8e6 !important;
+}
+
+.gradio-container table,
+.gradio-container thead,
+.gradio-container tbody,
+.gradio-container tr,
+.gradio-container th,
+.gradio-container td {
+    color: #162033 !important;
+    background: #ffffff !important;
+    border-color: #dbe3ec !important;
+    font-size: 0.98rem !important;
+    line-height: 1.45 !important;
+}
+
+.gradio-container th {
+    background: #eaf2fb !important;
+    font-weight: 700 !important;
+    color: #14314d !important;
+}
+
+.gradio-container thead th,
+.gradio-container table thead th,
+.gradio-container .dataframe-container thead th,
+.gradio-container .dataframe-container th {
+    background: #eef4fb !important;
+    color: #0f2740 !important;
+    opacity: 1 !important;
+    text-shadow: none !important;
+}
+
+.gradio-container thead th span,
+.gradio-container table thead th span,
+.gradio-container .dataframe-container thead th span,
+.gradio-container .dataframe-container th span {
+    color: #0f2740 !important;
+    opacity: 1 !important;
+    font-weight: 700 !important;
+}
+
+.gradio-container .table-wrap,
+.gradio-container .wrap .table-wrap {
+    border-radius: 16px !important;
+    overflow: hidden !important;
+    border: 1px solid #dbe3ec !important;
+}
+
+.gradio-container .label-wrap,
+.gradio-container .label,
+.gradio-container .block-title {
+    color: #11243a !important;
+    font-weight: 700 !important;
+}
+
+.gradio-container .label-wrap,
+.gradio-container .label-wrap > div,
+.gradio-container .label-wrap > label,
+.gradio-container .block-title,
+.gradio-container label[data-testid="block-label"],
+.gradio-container .form label,
+.gradio-container .form label span,
+.gradio-container .label-wrap span,
+.gradio-container .label-wrap p,
+.gradio-container .block-title span {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    color: #111827 !important;
+    font-size: 1rem !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.01em !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    border-radius: 0 !important;
+}
+
+.gradio-container .dataframe-container .label,
+.gradio-container .dataframe-container .label-wrap,
+.gradio-container .dataframe-container .label-wrap *,
+.gradio-container .dataframe-container [data-testid="block-label"],
+.gradio-container .dataframe-container .block-title,
+.gradio-container .dataframe-container .block-info {
+    color: #1f2937 !important;
+    background: transparent !important;
+    opacity: 1 !important;
+}
+
+.gradio-container .examples table td {
+    font-size: 0.97rem !important;
+}
+
+.gradio-container .examples table tr:hover td {
+    background: #edf5ff !important;
+}
+
+.gradio-container .dataframe-container td {
+    padding: 10px 12px !important;
+}
+
+.gradio-container .dataframe-container tr:nth-child(even) td {
+    background: #f8fbff !important;
+}
+
+.gradio-container .dataframe-container tr:hover td {
+    background: #eaf4ff !important;
+}
+
+.gradio-container .dataframe-container th {
+    padding: 11px 12px !important;
+}
+
+.gradio-container .dataframe-container {
+    font-family: "Segoe UI", "Public Sans", Arial, sans-serif !important;
+}
+
+.gradio-container .label-container,
+.gradio-container .label-container *,
+.gradio-container .label-container .wrap,
+.gradio-container .label-container .block,
+.gradio-container .label-container .block-content {
+    background: #ffffff !important;
+    color: #111827 !important;
+}
+
+.gradio-container .label-container {
+    border: 1px solid #d7e1eb !important;
+    border-radius: 16px !important;
+    box-shadow: none !important;
+}
+
+.gradio-container .label-container .label,
+.gradio-container .label-container .label-wrap,
+.gradio-container .label-container [data-testid="block-label"] {
+    background: transparent !important;
+    color: #111827 !important;
+}
+
+.gradio-container .label-container .bar,
+.gradio-container .label-container .progress-bar,
+.gradio-container .label-container [role="progressbar"] {
+    background: #3b82f6 !important;
+    color: #111827 !important;
+}
+
+.gradio-container .label-container .value,
+.gradio-container .label-container .name,
+.gradio-container .label-container .confidence,
+.gradio-container .label-container .score {
+    color: #111827 !important;
+    opacity: 1 !important;
+    font-size: 1rem !important;
+    font-weight: 600 !important;
+}
+
+.gradio-container .panel-card + div,
+.gradio-container .stat-card + div {
+    margin-top: 10px;
 }
 """
 
@@ -139,6 +409,24 @@ def _result_summary(label: str, confidence: str, probabilities: np.ndarray) -> s
         f"<div style='margin-top:6px; color:#4b5a6d; font-weight:500;'>{tone}</div>"
         f"<div style='margin-top:8px; color:#697789; font-size:0.94rem;'>"
         f"REAL score: {probabilities[0]:.3f} | FAKE score: {probabilities[1]:.3f}"
+        "</div>"
+        "</div>"
+    )
+
+
+def _probability_summary(probabilities: np.ndarray) -> str:
+    real_score = float(probabilities[0])
+    fake_score = float(probabilities[1])
+    return (
+        "<div class='probability-card'>"
+        "<h4>Class probabilities</h4>"
+        "<div class='probability-row'>"
+        f"<div class='probability-meta'><span>FAKE</span><span>{fake_score:.1%}</span></div>"
+        f"<div class='probability-track'><div class='probability-fill' style='width:{fake_score * 100:.1f}%'></div></div>"
+        "</div>"
+        "<div class='probability-row'>"
+        f"<div class='probability-meta'><span>REAL</span><span>{real_score:.1%}</span></div>"
+        f"<div class='probability-track'><div class='probability-fill' style='width:{real_score * 100:.1f}%'></div></div>"
         "</div>"
         "</div>"
     )
@@ -260,7 +548,7 @@ def build_demo(artifacts_dir: Path = DEFAULT_ARTIFACTS_DIR) -> gr.Blocks:
                 "Please enter at least 10 characters of title/body content.",
                 "<div class='result-banner'>Please enter at least 10 characters of title/body content.</div>",
                 empty,
-                {"REAL": 0.0, "FAKE": 0.0},
+                _probability_summary(np.array([0.0, 0.0])),
             )
 
         model = models[selected_model]
@@ -269,10 +557,17 @@ def build_demo(artifacts_dir: Path = DEFAULT_ARTIFACTS_DIR) -> gr.Blocks:
         label, confidence = _confidence_and_label(probabilities)
         detail = _result_summary(label, confidence, probabilities)
         explanation = _top_contributions(model, vector, feature_names)
-        chart = {"REAL": float(probabilities[0]), "FAKE": float(probabilities[1])}
-        return label, confidence, detail, explanation, chart
+        probability_html = _probability_summary(probabilities)
+        return label, confidence, detail, explanation, probability_html
 
-    with gr.Blocks(title="Fake News Detector", css=APP_CSS, theme=gr.themes.Soft()) as demo:
+    theme = gr.themes.Soft(
+        primary_hue="blue",
+        secondary_hue="slate",
+        neutral_hue="slate",
+        font=gr.themes.GoogleFont("Public Sans"),
+    )
+
+    with gr.Blocks(title="Fake News Detector", css=APP_CSS, theme=theme) as demo:
         gr.HTML(
             """
             <div class="app-shell">
@@ -287,44 +582,6 @@ def build_demo(artifacts_dir: Path = DEFAULT_ARTIFACTS_DIR) -> gr.Blocks:
             </div>
             """
         )
-        with gr.Row(equal_height=True):
-            with gr.Column(scale=1):
-                gr.HTML(
-                    f"""
-                    <div class="stat-card">
-                      <h3>Rows Used</h3>
-                      <div class="value">{dataset_rows}</div>
-                    </div>
-                    """
-                )
-            with gr.Column(scale=1):
-                gr.HTML(
-                    f"""
-                    <div class="stat-card">
-                      <h3>Default Model</h3>
-                      <div class="value" style="font-size:1.2rem;">{default_model}</div>
-                    </div>
-                    """
-                )
-            with gr.Column(scale=1):
-                gr.HTML(
-                    f"""
-                    <div class="stat-card">
-                      <h3>Best By F1</h3>
-                      <div class="value" style="font-size:1.2rem;">{best_model}</div>
-                    </div>
-                    """
-                )
-            with gr.Column(scale=1):
-                gr.HTML(
-                    f"""
-                    <div class="stat-card">
-                      <h3>Label Split</h3>
-                      <div class="value" style="font-size:1.1rem;">R {real_count} / F {fake_count}</div>
-                    </div>
-                    """
-                )
-
         with gr.Row():
             with gr.Column(scale=2):
                 gr.HTML("<div class='panel-card'><div class='section-title'>Article Input</div></div>")
@@ -357,18 +614,22 @@ def build_demo(artifacts_dir: Path = DEFAULT_ARTIFACTS_DIR) -> gr.Blocks:
                 label_out = gr.Textbox(label="Prediction")
                 confidence_out = gr.Textbox(label="Confidence")
                 detail_out = gr.HTML(label="Summary")
-                probability_out = gr.Label(label="Class probabilities")
+                probability_out = gr.HTML(label="Class probabilities")
 
         with gr.Row():
-            with gr.Column(scale=3):
+            with gr.Column(scale=4):
                 gr.HTML("<div class='panel-card'><div class='section-title'>Why The Model Leaned This Way</div></div>")
                 contrib_out = gr.Dataframe(
                     headers=["token", "contribution"],
-                    label="Top contributing tokens",
+                    wrap=True,
                 )
-            with gr.Column(scale=1):
+            with gr.Column(scale=2):
                 gr.HTML("<div class='panel-card'><div class='section-title'>Model Metrics</div></div>")
-                gr.Dataframe(value=metrics_table, label="Evaluation metrics", wrap=True)
+                gr.Dataframe(
+                    value=metrics_table,
+                    wrap=True,
+                    column_widths=["150px", "92px", "92px", "92px", "70px"],
+                )
 
         submit.click(
             predict,
@@ -384,7 +645,7 @@ def build_demo(artifacts_dir: Path = DEFAULT_ARTIFACTS_DIR) -> gr.Blocks:
                 "",
                 "<div class='result-banner'>Run an analysis to see the result summary here.</div>",
                 pd.DataFrame(columns=["token", "contribution"]),
-                {"REAL": 0.0, "FAKE": 0.0},
+                _probability_summary(np.array([0.0, 0.0])),
             ),
             outputs=[
                 title_in,
