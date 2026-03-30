@@ -17,13 +17,14 @@ demo = build_demo()
 
 
 if __name__ == "__main__":
-    host = os.getenv("FAKE_NEWS_HOST", "127.0.0.1")
+    is_space = bool(os.getenv("SPACE_ID") or os.getenv("HF_SPACE"))
+    host = os.getenv("FAKE_NEWS_HOST", "0.0.0.0" if is_space else "127.0.0.1")
     port = int(os.getenv("FAKE_NEWS_PORT", "7860"))
     print(f"Starting Fake News Detector at http://{host}:{port}")
     demo.launch(
         server_name=host,
         server_port=port,
-        inbrowser=True,
+        inbrowser=not is_space,
         share=False,
         quiet=False,
     )

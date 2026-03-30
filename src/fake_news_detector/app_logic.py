@@ -35,30 +35,26 @@ APP_CSS = """
 }
 
 .eyebrow {
-    display: inline-block;
-    margin-bottom: 12px;
-    padding: 6px 12px;
-    border-radius: 999px;
-    background: #17324f;
-    color: #ffffff;
-    border: 1px solid #17324f;
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
+    margin: 0 0 8px 0;
+    color: #132238;
+    font-size: 2.6rem;
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: 0;
+    text-transform: none;
 }
 
 .hero h1 {
-    margin: 0 0 8px 0;
-    font-size: 2.6rem;
-    line-height: 1.05;
-    color: #132238;
-    font-weight: 800;
+    margin: 0 0 12px 0;
+    font-size: 1.55rem;
+    line-height: 1.3;
+    color: #31445c;
+    font-weight: 700;
 }
 
 .hero p {
     margin: 0;
-    max-width: 760px;
+    max-width: 100%;
     color: #3d4c5f;
     font-size: 1.08rem;
     line-height: 1.65;
@@ -377,12 +373,12 @@ APP_CSS = """
 
 EXAMPLES = [
     [
-        "Health agency releases annual vaccine safety report",
-        "The agency published updated vaccine safety findings with methods, data tables, and recommendations for public review.",
+        "Health agency releases annual vaccine safety report with updated findings",
+        "The national health agency released its annual vaccine safety report after reviewing hospital records, public health monitoring data, and independent advisory recommendations. Officials said the report includes updated findings on side effects, safety trends across age groups, and guidance for clinics preparing for the next immunization cycle. The document was published on the agency website along with supporting data tables and methodology notes for public review.",
     ],
     [
-        "Secret machine controls weather in every city",
-        "A viral blog claims a hidden device changes the weather worldwide overnight without providing evidence or official sources.",
+        "Secret machine controls weather in every city, viral blog claims",
+        "A viral blog post claims that a hidden machine is secretly controlling weather patterns in major cities around the world. The article says the device can create storms, heat waves, and floods on command, but it does not provide scientific evidence, official records, or verified expert sources. The claim spreads through sensational language and conspiracy-style accusations rather than documented reporting.",
     ],
 ]
 
